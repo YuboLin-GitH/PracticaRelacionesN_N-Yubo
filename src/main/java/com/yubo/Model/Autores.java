@@ -74,11 +74,7 @@ public class Autores {
 
     @Override
     public String toString() {
-        return "Autores{" +
-                "idautor=" + idautor +
-                ", nombre='" + nombre + '\'' +
-                ", nacionalidad='" + nacionalidad + '\'' +
-                '}';
+        return nombre;
     }
 
     public void addLibro(Libros libro) {

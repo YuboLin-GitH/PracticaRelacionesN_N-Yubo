@@ -79,10 +79,6 @@ public class Editoriales {
 
     @Override
     public String toString() {
-        return "Editoriales{" +
-                "ideditorial=" + ideditorial +
-                ", nombre='" + nombre + '\'' +
-                ", ciudad='" + ciudad + '\'' +
-                '}';
+        return nombre;
     }
 }

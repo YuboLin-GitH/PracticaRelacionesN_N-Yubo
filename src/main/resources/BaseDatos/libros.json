@@ -1,0 +1,48 @@
+[
+  {
+    "titulo": "Clean Code",
+    "isbn": "978-0132350884",
+    "editorial": {
+      "nombre": "Prentice Hall",
+      "ciudad": "New Jersey"
+    },
+    "autores": [
+      {
+        "nombre": "Robert C. Martin",
+        "nacionalidad": "USA"
+      }
+    ]
+  },
+  {
+    "titulo": "Harry Potter y la Piedra Filosofal",
+    "isbn": "978-8478884452",
+    "editorial": {
+      "nombre": "Salamandra",
+      "ciudad": "Barcelona"
+    },
+    "autores": [
+      {
+        "nombre": "J.K. Rowling",
+        "nacionalidad": "Reino Unido"
+      }
+    ]
+  },
+  {
+    "titulo": "Design Patterns",
+    "isbn": "978-0201633610",
+    "editorial": {
+      "nombre": "Addison-Wesley",
+      "ciudad": "Boston"
+    },
+    "autores": [
+      {
+        "nombre": "Erich Gamma",
+        "nacionalidad": "Suiza"
+      },
+      {
+        "nombre": "Richard Helm",
+        "nacionalidad": "Canada"
+      }
+    ]
+  }
+]

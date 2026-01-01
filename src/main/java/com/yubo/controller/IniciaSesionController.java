@@ -1,4 +1,4 @@
-package com.yubo.Controller;
+package com.yubo.controller;
 
 
 import com.yubo.DAO.UsuarioDAO;

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yubo.Controller.LibreriaController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yubo.controller.LibreriaController">
     <children>
         <AnchorPane prefHeight="850.0" prefWidth="750.0">
             <children>
@@ -70,10 +70,11 @@
 
                 <TableView fx:id="tvLibros" layoutX="50.0" layoutY="530.0" prefHeight="200.0" prefWidth="650.0">
                     <columns>
-                        <TableColumn fx:id="colId" prefWidth="60.0" text="ID" />
-                        <TableColumn fx:id="colTitulo" prefWidth="240.0" text="Título" />
-                        <TableColumn fx:id="colIsbn" prefWidth="150.0" text="ISBN" />
-                        <TableColumn fx:id="colEditorial" prefWidth="180.0" text="Editorial" />
+                        <TableColumn fx:id="tcId" prefWidth="60.0" text="ID" />
+                        <TableColumn fx:id="tcTitulo" prefWidth="240.0" text="Título" />
+                        <TableColumn fx:id="tcIsbn" prefWidth="150.0" text="ISBN" />
+                        <TableColumn fx:id="tcEditorial" prefWidth="180.0" text="Editorial" />
+                        <TableColumn fx:id="tcAutores" prefWidth="200.0" text="Autores (N-M)" />
                     </columns>
                 </TableView>
 
