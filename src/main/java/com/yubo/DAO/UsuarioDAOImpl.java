@@ -1,71 +1,38 @@
 package com.yubo.DAO;
 
-
-import com.yubo.Model.Paciente;
-import com.yubo.util.R;
-import org.apache.commons.codec.digest.DigestUtils;
-
-import java.io.IOException;
-import java.sql.*;
-import java.util.Properties;
-
-
+import com.yubo.Model.Usuarios;
+import com.yubo.util.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 public class UsuarioDAOImpl implements UsuarioDAO {
 
-    private Connection conexion;
+    /**
+     * 使用 Hibernate 验证登录
+     * 注意：为了配合之前数据库插入的 '1234'，这里暂时不用 SHA256 加密。
+     * 如果你想用加密，需要在存入数据库时也加密。
+     */
 
     @Override
-    public void conectar() throws ClassNotFoundException, SQLException, IOException {
-        Properties configuration = new Properties();
-        configuration.load(R.getProperties("database.properties"));
-        String host = configuration.getProperty("host");
-        String port = configuration.getProperty("port");
-        String name = configuration.getProperty("name");
-        String username = configuration.getProperty("username");
-        String password = configuration.getProperty("password");
+    public Usuarios login(String nombre, String password) {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Usuarios user = null;
+        try {
+            // HQL 查询：注意是从类名 'Usuarios' 查，不是表名
+            String hql = "FROM Usuarios WHERE nombre = :nom AND password = :pass";
+            Query<Usuarios> query = session.createQuery(hql, Usuarios.class);
+            query.setParameter("nom", nombre);
+            query.setParameter("pass", password);
 
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conexion = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + name + "?serverTimezone=UTC",
-                username, password);
-    }
-
-    @Override
-    public void desconectar() throws SQLException {
-        if (conexion != null) conexion.close();
-    }
-
-    @Override
-    public Paciente resultSetToPaciente(ResultSet resultado) throws SQLException {
-        Paciente p = new Paciente();
-        p.setIdPaciente(resultado.getInt("idPaciente"));
-        p.setDni(resultado.getString("dni"));
-        p.setNombre(resultado.getString("nombre"));
-        p.setPassword(resultado.getString("password"));
-        p.setDireccion(resultado.getString("direccion"));
-        p.setTelefono(resultado.getInt("telefono"));
-        return p;
-    }
-
-    @Override
-    public Paciente valiadarUsuario(String nombre, String passwordPlano) throws SQLException{
-        String sql = "SELECT * FROM paciente WHERE nombre = ? AND password = ?";
-        String passwordHash = DigestUtils.sha256Hex(passwordPlano);
-
-
-        try (PreparedStatement sentencia = conexion.prepareStatement(sql)) {
-            sentencia.setString(1, nombre);
-            sentencia.setString(2, passwordHash);
-            ResultSet resultado = sentencia.executeQuery();
-
-            if (resultado.next()) {
-                return resultSetToPaciente(resultado);
+            // 获取唯一结果，没找到则返回 null
+            user = query.uniqueResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
             }
-        return null;
+        }
+        return user;
     }
-
-  }
-
-
-
 }
