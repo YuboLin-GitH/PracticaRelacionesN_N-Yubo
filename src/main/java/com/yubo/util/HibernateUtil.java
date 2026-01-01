@@ -3,9 +3,10 @@ package com.yubo.util;
 
 
 
-import com.yubo.Model.Amigos;
-import com.yubo.Model.Jugador;
-import com.yubo.Model.Puntos;
+import com.yubo.Model.Editoriales;
+import com.yubo.Model.Libros;
+import com.yubo.Model.Autores;
+import com.yubo.Model.Usuarios;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -29,9 +30,11 @@ public class HibernateUtil {
 		Configuration cfg = new Configuration();
 		cfg.configure("configuration/hibernate.cfg.xml");
 
-		cfg.addAnnotatedClass(Jugador.class);
-        cfg.addAnnotatedClass(Puntos.class);
-        cfg.addAnnotatedClass(Amigos.class);
+
+		cfg.addAnnotatedClass(Usuarios.class);
+		cfg.addAnnotatedClass(Editoriales.class);
+        cfg.addAnnotatedClass(Autores.class);
+        cfg.addAnnotatedClass(Libros.class);
 
 		factory = cfg.buildSessionFactory();
 	}

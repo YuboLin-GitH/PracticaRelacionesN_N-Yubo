@@ -5,13 +5,16 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost/Taller?serverTimezone=UTC</property>
+        <property name="connection.url">jdbc:mysql://localhost/Libreria?serverTimezone=UTC</property>
         <property name="connection.username">root</property>
         <property name="connection.password">toor</property>
         <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="hibernate.show_sql">true</property>
 
-        <mapping class="com.yubo.Model.Coches"/>
-        <mapping class="com.yubo.Model.Reparaciones"/>
+        <mapping class="com.yubo.Model.Usuarios"/>
+        <mapping class="com.yubo.Model.Autores"/>
+        <mapping class="com.yubo.Model.Editoriales"/>
+        <mapping class="com.yubo.Model.Libros"/>
+
     </session-factory>
 </hibernate-configuration>
