@@ -5,6 +5,7 @@ import com.yubo.DAO.LibreriaDAOImpl;
 import com.yubo.Model.Autores;
 import com.yubo.Model.Editoriales;
 import com.yubo.Model.Libros;
+import com.yubo.util.AlertUtils;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -86,7 +87,7 @@ public class LibreriaController {
         Editoriales editorial = cbEditorial.getValue();
 
         if (titulo.isEmpty() || isbn.isEmpty() || editorial == null) {
-            mostrarAlerta("Error", "Rellena título, ISBN y editorial", Alert.AlertType.WARNING);
+            AlertUtils.mostrarError("Por favor, rellena todos los campos obligatorios.");
             return;
         }
 
@@ -102,12 +103,13 @@ public class LibreriaController {
             // 调用 DAO 保存
             libreriaDAO.guardarLibro(libro);
 
-            mostrarAlerta("Éxito", "Libro guardado correctamente", Alert.AlertType.INFORMATION);
+            AlertUtils.mostrarInformacion("Libro guardado correctamente");
             limpiarFormulario(null);
             cargarDatos();
 
         } catch (Exception e) {
-            mostrarAlerta("Error", "No se pudo guardar: " + e.getMessage(), Alert.AlertType.ERROR);
+            AlertUtils.mostrarError("No se pudo guardar: "+ e.getMessage());
+
             e.printStackTrace();
         }
     }
@@ -117,7 +119,7 @@ public class LibreriaController {
     void borrarLibro(ActionEvent event) {
         Libros libroSeleccionado = tvLibros.getSelectionModel().getSelectedItem();
         if (libroSeleccionado == null) {
-            mostrarAlerta("Aviso", "Selecciona un libro de la tabla", Alert.AlertType.WARNING);
+            AlertUtils.mostrarAviso("Selecciona un libro de la tabla ");
             return;
         }
 
@@ -128,9 +130,9 @@ public class LibreriaController {
             libreriaDAO.borrarLibro(libroSeleccionado);
 
             cargarDatos();
-            mostrarAlerta("Info", "Libro borrado. Puedes 'Deshacer' ahora.", Alert.AlertType.INFORMATION);
+            AlertUtils.mostrarInformacion("Libro borrado. Puedes 'Deshacer' ahora.");
         } catch (Exception e) {
-            mostrarAlerta("Error", "Error al borrar: " + e.getMessage(), Alert.AlertType.ERROR);
+            AlertUtils.mostrarError("Error al borrar: " + e.getMessage());
         }
     }
 
@@ -138,7 +140,7 @@ public class LibreriaController {
     @FXML
     void recuperarBorrado(ActionEvent event) {
         if (ultimoLibroBorrado == null) {
-            mostrarAlerta("Aviso", "No hay nada que recuperar", Alert.AlertType.WARNING);
+            AlertUtils.mostrarAviso("No hay nada que recuperar ");
             return;
         }
         try {
@@ -149,9 +151,9 @@ public class LibreriaController {
 
             ultimoLibroBorrado = null;
             cargarDatos();
-            mostrarAlerta("Éxito", "Libro recuperado", Alert.AlertType.INFORMATION);
+            AlertUtils.mostrarInformacion("Libro recuperado");
         } catch (Exception e) {
-            mostrarAlerta("Error", "Error al recuperar: " + e.getMessage(), Alert.AlertType.ERROR);
+            AlertUtils.mostrarError("Error al recuperar: " + e.getMessage());
         }
     }
 
@@ -161,7 +163,7 @@ public class LibreriaController {
         Autores autorSeleccionado = cbAutores.getValue();
         if (autorSeleccionado != null) {
             autoresTemporales.add(autorSeleccionado);
-            mostrarAlerta("Info", "Autor " + autorSeleccionado.getNombre() + " añadido.", Alert.AlertType.INFORMATION);
+            AlertUtils.mostrarInformacion("Autor " + autorSeleccionado.getNombre() + " añadido.");
         }
     }
 
@@ -181,7 +183,7 @@ public class LibreriaController {
             List<Libros> librosImportados = com.yubo.DAO.LibroJSON.obtenerLibrosDesdeJSON();
 
             if (librosImportados == null || librosImportados.isEmpty()) {
-                mostrarAlerta("Aviso", "El archivo JSON está vacío o no se encontró.", Alert.AlertType.WARNING);
+                AlertUtils.mostrarAviso("l archivo JSON está vacío o no se encontró.");
                 return;
             }
 
@@ -196,21 +198,16 @@ public class LibreriaController {
 
             // 3. 刷新表格
             cargarDatos();
-            mostrarAlerta("Éxito", "Importación completada. Se han guardado " + count + " libros.", Alert.AlertType.INFORMATION);
+            AlertUtils.mostrarInformacion("Importación completada. Se han guardado " + count + " libros.");
 
         } catch (IOException e) {
             e.printStackTrace();
-            mostrarAlerta("Error IO", "No se pudo leer el archivo JSON: " + e.getMessage(), Alert.AlertType.ERROR);
+            AlertUtils.mostrarError("No se pudo leer el archivo JSON: " + e.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
-            mostrarAlerta("Error Base de Datos", "Error al guardar en la base de datos: " + e.getMessage(), Alert.AlertType.ERROR);
+            AlertUtils.mostrarError("Error al guardar en la base de datos: " + e.getMessage());
         }
     }
 
-    private void mostrarAlerta(String titulo, String contenido, Alert.AlertType tipo) {
-        Alert alert = new Alert(tipo);
-        alert.setTitle(titulo);
-        alert.setContentText(contenido);
-        alert.showAndWait();
-    }
+
 }

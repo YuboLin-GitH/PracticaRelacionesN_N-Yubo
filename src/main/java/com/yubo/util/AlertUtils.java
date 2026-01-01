@@ -15,4 +15,9 @@ public class AlertUtils {
         alerta.setContentText(s);
         alerta.show();
     }
+    public static void mostrarAviso(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle("Aviso");
+        alerta.setContentText(mensaje);
+    }
 }
