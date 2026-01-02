@@ -21,16 +21,13 @@ public class LibroJSON {
 
     private static final ObjectMapper JSON_MAPPER = new ObjectMapper();
 
-    public static List<Libros> obtenerLibrosDesdeJSON() throws IOException {
+    public static List<Libros> obtenerLibrosDesdeJSON(File archivo) throws IOException {
 
-
-        File archivo = new File("src/main/resources/BaseDatos/libros.json");
 
         ArrayList<Libros> listaLibros = JSON_MAPPER.readValue(
                 archivo,
                 JSON_MAPPER.getTypeFactory().constructCollectionType(ArrayList.class, Libros.class)
         );
-
         return listaLibros;
     }
 }

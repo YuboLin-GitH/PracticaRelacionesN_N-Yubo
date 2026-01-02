@@ -6,7 +6,6 @@ import com.yubo.DAO.UsuarioDAOImpl;
 import com.yubo.Model.Usuarios;
 
 import com.yubo.util.AlertUtils;
-import com.yubo.util.R;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -69,7 +68,7 @@ public class IniciaSesionController {
 
     private void abrirVentanaPrincipal() {
         try {
-            FXMLLoader loader = new FXMLLoader(R.getUI("libreria.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/libreria.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Sistema Libreria");

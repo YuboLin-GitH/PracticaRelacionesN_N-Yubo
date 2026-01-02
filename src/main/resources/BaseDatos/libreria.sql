@@ -65,4 +65,5 @@ CREATE TABLE libro_autor (
 
 INSERT INTO libro_autor (idLibro, idAutor) VALUES
 (1, 1),
-(2, 2);
+(2, 2),
+(3, 3);

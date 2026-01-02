@@ -13,7 +13,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,6 +28,7 @@ public class LibreriaController {
     @FXML private ComboBox<Editoriales> cbEditorial;
     @FXML private ComboBox<Autores> cbAutores;
 
+    @FXML private Button btImportarJSON;
     // Tabla principal
     @FXML private TableView<Libros> tvLibros;
     @FXML private TableColumn<Libros, Integer> tcId;
@@ -36,6 +39,7 @@ public class LibreriaController {
     // Tabla secundaria (gestión relación N-M)
     @FXML private TableView<Autores> tvAutoresSeleccionados;
     @FXML private TableColumn<Autores, String> tcNombreAutor;
+
 
     // === Capa de datos y variables de control ===
     private LibreriaDAO libreriaDAO = new LibreriaDAOImpl();
@@ -260,9 +264,20 @@ public class LibreriaController {
 
     @FXML
     void importarJSON(ActionEvent event) {
+
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Seleccionar archivo JSON");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Archivos JSON", "*.json"));
+
+
+        File archivoSeleccionado = fileChooser.showOpenDialog(btImportarJSON.getScene().getWindow());
+
+        if (archivoSeleccionado == null) {
+            return;
+        }
+
         try {
-            List<Libros> librosImportados =
-                    com.yubo.DAO.LibroJSON.obtenerLibrosDesdeJSON();
+            List<Libros> librosImportados = com.yubo.DAO.LibroJSON.obtenerLibrosDesdeJSON(archivoSeleccionado);
 
             if (librosImportados == null || librosImportados.isEmpty()) {
                 AlertUtils.mostrarAviso(
@@ -326,21 +341,17 @@ public class LibreriaController {
                     guardados++;
 
                 } catch (Exception e) {
-                    System.err.println(
-                            "Error importando libro: "
-                                    + libroNuevo.getTitulo()
-                    );
+                    System.err.println("Error importando libro: " + libroNuevo.getTitulo());
                     e.printStackTrace();
                 }
             }
 
             cargarDatos();
-            String msg =
-                    "Importación completada.\n"
-                            + "Nuevos: " + guardados + "\n"
-                            + "Repetidos: " + omitidos;
 
-            AlertUtils.mostrarInformacion(msg);
+
+            AlertUtils.mostrarInformacion("Importación completada.\n"
+                    + "Nuevos: " + guardados + "\n"
+                    + "Repetidos: " + omitidos);
 
         } catch (Exception e) {
             e.printStackTrace();

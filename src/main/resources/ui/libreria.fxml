@@ -20,7 +20,7 @@
 
                 <Label layoutX="29.0" layoutY="120.0" prefHeight="167.0" prefWidth="690.0" style="-fx-background-color: #f0f0f0; -fx-background-radius: 20; -fx-border-color: #828282; -fx-border-radius: 20;" />
 
-                <Label layoutX="50.0" layoutY="38.0" text="Gestión de Biblioteca" textFill="WHITE">
+                <Label layoutX="50.0" layoutY="38.0" text="Gestión de Libreria" textFill="WHITE">
                     <font>
                         <Font name="System Bold" size="24.0" />
                     </font>

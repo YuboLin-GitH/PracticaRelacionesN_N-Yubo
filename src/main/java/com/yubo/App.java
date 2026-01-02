@@ -1,5 +1,6 @@
 package com.yubo;
 
+import com.yubo.util.DatabaseImporta;
 import com.yubo.util.R;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +13,9 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        FXMLLoader loader = new FXMLLoader(R.getUI("iniciaSesion.fxml"));
+        DatabaseImporta.inicializarBaseDatos();
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ui/iniciaSesion.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         stage.setTitle("Inicio de Sesión");
