@@ -7,25 +7,21 @@ import org.hibernate.query.Query;
 
 public class UsuarioDAOImpl implements UsuarioDAO {
 
-    /**
-     * 使用 Hibernate 验证登录
-     * 注意：为了配合之前数据库插入的 '1234'，这里暂时不用 SHA256 加密。
-     * 如果你想用加密，需要在存入数据库时也加密。
-     */
-
     @Override
     public Usuarios login(String nombre, String password) {
         Session session = HibernateUtil.getSessionFactory().openSession();
         Usuarios user = null;
+
         try {
-            // HQL 查询：注意是从类名 'Usuarios' 查，不是表名
+            // Consulta HQL: se consulta la clase 'Usuarios', no la tabla
             String hql = "FROM Usuarios WHERE nombre = :nom AND password = :pass";
             Query<Usuarios> query = session.createQuery(hql, Usuarios.class);
             query.setParameter("nom", nombre);
             query.setParameter("pass", password);
 
-            // 获取唯一结果，没找到则返回 null
+            // Obtiene un único resultado;
             user = query.uniqueResult();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -33,6 +29,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
                 session.close();
             }
         }
+
         return user;
     }
 }

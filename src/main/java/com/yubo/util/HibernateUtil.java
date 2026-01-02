@@ -2,41 +2,42 @@ package com.yubo.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import java.util.Properties;
+
 import java.io.InputStream;
+import java.util.Properties;
 
 public class HibernateUtil {
+
 	private static SessionFactory sessionFactory;
 
 	public static SessionFactory getSessionFactory() {
 		if (sessionFactory == null) {
 			try {
-				// 1. 创建配置对象
+				// 1. Crear el objeto de configuración
 				Configuration configuration = new Configuration();
 
-				// ⚠️ 注意：如果你之前的代码里写的是 "configuration/hibernate.cfg.xml"
-				// 说明你的 xml 文件在一个子文件夹里。请保留这个路径：
-				configuration.configure("configuration/hibernate.cfg.xml");
-				// 如果你的 xml 直接在 src/main/resources 下，就用空的 .configure();
 
-				// 2. 加载 db.properties
+				configuration.configure("configuration/hibernate.cfg.xml");
+
+
+				// 2. Cargar database.properties
 				Properties settings = new Properties();
 				try (InputStream input = HibernateUtil.class.getClassLoader().getResourceAsStream("configuration/database.properties")) {
 					if (input == null) {
-						System.out.println("⚠️ 无法找到 db.properties，请确保它在 src/main/resources 下！");
+						System.out.println("No se pudo encontrar database.properties. ");
 						return null;
 					}
 					settings.load(input);
 				}
 
-				// 3. 读取字段
+				// 3. Leer propiedades
 				String host = settings.getProperty("host");
 				String port = settings.getProperty("port");
 				String dbName = settings.getProperty("name");
 				String user = settings.getProperty("username");
 				String pass = settings.getProperty("password");
 
-				// 4. 拼接 URL 并设置属性
+				// 4. Construir la URL de conexión y configurar Hibernate
 				String connectionUrl = String.format("jdbc:mysql://%s:%s/%s?serverTimezone=UTC", host, port, dbName);
 
 				configuration.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
@@ -44,13 +45,13 @@ public class HibernateUtil {
 				configuration.setProperty("hibernate.connection.username", user);
 				configuration.setProperty("hibernate.connection.password", pass);
 
-				// 5. 创建工厂
+				// 5. Crear la SessionFactory
 				sessionFactory = configuration.buildSessionFactory();
-				System.out.println("✅ Hibernate 启动成功！连接地址: " + connectionUrl);
+				System.out.println("Hibernate iniciado correctamente. URL: " + connectionUrl);
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				System.err.println("❌ Hibernate 初始化失败: " + e.getMessage());
+				System.err.println("Error al inicializar Hibernate: " + e.getMessage());
 			}
 		}
 		return sessionFactory;

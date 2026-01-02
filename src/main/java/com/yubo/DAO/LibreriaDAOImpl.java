@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * ClassName: LibreriaDAOImpl
  * Package: com.yubo.DAO
- * Description:
+ * Description: Implementación DAO para la gestión de libros, autores y editoriales.
  *
  * @Author Yubo
  * @Create 01/01/2026 19:17
@@ -20,12 +20,12 @@ import java.util.List;
  */
 public class LibreriaDAOImpl implements LibreriaDAO {
 
-    // 1. 获取所有书籍 (用于填充表格)
+    // 1. Obtener todos los libros (para rellenar la tabla)
     @Override
     public List<Libros> listarLibros() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // 修改点：加了 DISTINCT 和 LEFT JOIN FETCH l.autores
-            // 意思：查书的同时，把出版社和作者都带出来。DISTINCT 防止因为有多个作者导致书名重复显示。
+            // Se usa DISTINCT y LEFT JOIN FETCH para evitar duplicados
+            // y cargar editoriales y autores en una sola consulta
             String hql = "SELECT DISTINCT l FROM Libros l " +
                     "LEFT JOIN FETCH l.editorial " +
                     "LEFT JOIN FETCH l.autores";
@@ -33,7 +33,7 @@ public class LibreriaDAOImpl implements LibreriaDAO {
         }
     }
 
-    // 2. 获取所有出版社 (用于填充下拉框)
+    // 2. Obtener todas las editoriales (para el ComboBox)
     @Override
     public List<Editoriales> listarEditoriales() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -41,7 +41,7 @@ public class LibreriaDAOImpl implements LibreriaDAO {
         }
     }
 
-    // 3. 获取所有作者 (用于填充下拉框)
+    // 3. Obtener todos los autores (para el ComboBox)
     @Override
     public List<Autores> listarAutores() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -49,21 +49,23 @@ public class LibreriaDAOImpl implements LibreriaDAO {
         }
     }
 
-    // 4. 保存或更新书籍
+    // 4. Guardar o actualizar un libro
     @Override
     public void guardarLibro(Libros libro) throws Exception {
         Transaction tx = null;
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            session.saveOrUpdate(libro); // saveOrUpdate 既能保存也能修改
+            // saveOrUpdate permite insertar o actualizar según el estado del objeto
+            session.saveOrUpdate(libro);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
-            throw e; // 抛出异常让 Controller 去显示错误弹窗
+            // Se propaga la excepción para que el Controller la gestione
+            throw e;
         }
     }
 
-    // 5. 删除书籍
+    // 5. Eliminar un libro
     @Override
     public void borrarLibro(Libros libro) throws Exception {
         Transaction tx = null;
@@ -77,22 +79,21 @@ public class LibreriaDAOImpl implements LibreriaDAO {
         }
     }
 
-
-
+    // Buscar una editorial por su nombre
     @Override
     public Editoriales buscarEditorialPorNombre(String nombre) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // HQL 查询：根据名字找出版社
+            // Consulta HQL para buscar editorial por nombre
             String hql = "FROM Editoriales WHERE nombre = :nombre";
             return session.createQuery(hql, Editoriales.class)
                     .setParameter("nombre", nombre)
-                    .uniqueResult(); // 如果找到返回对象，找不到返回 null
+                    .uniqueResult(); // Devuelve null si no existe
         } catch (Exception e) {
             return null;
         }
     }
 
-    // ⭐【新增】实现单独保存出版社
+    // Guardar o actualizar una editorial de forma independiente
     @Override
     public void guardarEditorial(Editoriales editorial) throws Exception {
         Transaction tx = null;
@@ -106,11 +107,11 @@ public class LibreriaDAOImpl implements LibreriaDAO {
         }
     }
 
-
+    // Buscar un autor por su nombre
     @Override
     public Autores buscarAutorPorNombre(String nombre) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            // HQL 查询：根据名字找作者
+            // Consulta HQL para buscar autor por nombre
             String hql = "FROM Autores WHERE nombre = :nombre";
             return session.createQuery(hql, Autores.class)
                     .setParameter("nombre", nombre)
@@ -120,9 +121,7 @@ public class LibreriaDAOImpl implements LibreriaDAO {
         }
     }
 
-
-
-    // ⭐【新增】实现单独保存作者
+    // Guardar o actualizar un autor de forma independiente
     @Override
     public void guardarAutor(Autores autor) throws Exception {
         Transaction tx = null;
