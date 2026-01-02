@@ -31,4 +31,15 @@ public interface LibreriaDAO {
 
 
     void borrarLibro(Libros libro) throws Exception;
+
+
+    Editoriales buscarEditorialPorNombre(String nombre);
+
+    void guardarEditorial(Editoriales editorial) throws Exception;
+
+
+    Autores buscarAutorPorNombre(String nombre);
+
+    void guardarAutor(Autores autor) throws Exception;
+
 }

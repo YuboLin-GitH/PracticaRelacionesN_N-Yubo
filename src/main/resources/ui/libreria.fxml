@@ -10,15 +10,15 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yubo.controller.LibreriaController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="850.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.yubo.controller.LibreriaController">
     <children>
         <AnchorPane prefHeight="850.0" prefWidth="750.0">
             <children>
-                <Label layoutX="29.0" layoutY="380.0" prefHeight="83.0" prefWidth="690.0" style="-fx-background-color: #dcdcdc; -fx-background-radius: 20;" />
+                <Label layoutX="29.0" layoutY="296.0" prefHeight="167.0" prefWidth="690.0" style="-fx-background-color: #dcdcdc; -fx-background-radius: 20;" />
 
                 <Label layoutX="29.0" layoutY="24.0" prefHeight="60.0" prefWidth="690.0" style="-fx-background-color: #828282; -fx-background-radius: 20;" />
 
-                <Label layoutX="29.0" layoutY="120.0" prefHeight="230.0" prefWidth="690.0" style="-fx-background-color: #f0f0f0; -fx-background-radius: 20; -fx-border-color: #828282; -fx-border-radius: 20;" />
+                <Label layoutX="29.0" layoutY="120.0" prefHeight="167.0" prefWidth="690.0" style="-fx-background-color: #f0f0f0; -fx-background-radius: 20; -fx-border-color: #828282; -fx-border-radius: 20;" />
 
                 <Label layoutX="50.0" layoutY="38.0" text="Gestión de Biblioteca" textFill="WHITE">
                     <font>
@@ -52,15 +52,26 @@
                 </Label>
                 <ComboBox fx:id="cbEditorial" layoutX="220.0" layoutY="240.0" prefHeight="30.0" prefWidth="250.0" promptText="Seleccionar Editorial" />
 
-                <Button fx:id="btLimpiar" layoutX="550.0" layoutY="280.0" mnemonicParsing="false" onAction="#limpiarFormulario" style="-fx-background-radius: 10;" text="Limpiar Campos" />
+                <Button fx:id="btLimpiar" layoutX="551.0" layoutY="243.0" mnemonicParsing="false" onAction="#limpiarFormulario" style="-fx-background-radius: 10;" text="Limpiar Campos" />
 
-                <Label layoutX="50.0" layoutY="405.0" text="Añadir Autor (N-M):">
+                <Label layoutX="50.0" layoutY="317.0" text="Añadir Autor (N-M):">
                     <font>
                         <Font name="System Bold" size="18.0" />
                     </font>
                 </Label>
-                <ComboBox fx:id="cbAutores" layoutX="240.0" layoutY="405.0" prefHeight="30.0" prefWidth="250.0" promptText="Seleccionar Autor" />
-                <Button fx:id="btAddAutor" layoutX="510.0" layoutY="405.0" mnemonicParsing="false" onAction="#agregarAutorALibro" style="-fx-background-radius: 10;" text="Vincular Autor" />
+                <ComboBox fx:id="cbAutores" layoutX="257.0" layoutY="317.0" prefHeight="30.0" prefWidth="250.0" promptText="Seleccionar Autor" />
+                <Button fx:id="btAddAutor" layoutX="550.0" layoutY="320.0" mnemonicParsing="false" onAction="#agregarAutorALibro" style="-fx-background-radius: 10;" text="Vincular Autor" />
+                <Button fx:id="btQuitarAutor" layoutX="434.0" layoutY="390.0" mnemonicParsing="false" onAction="#quitarAutorDeLibro" prefHeight="30.0" style="-fx-background-color: #F44336; -fx-cursor: hand;" text="Quitar" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
+                    </font>
+                </Button>
+
+                <TableView fx:id="tvAutoresSeleccionados" layoutX="85.0" layoutY="355.0" prefHeight="100.0" prefWidth="324.0" style="-fx-border-color: #b0b0b0;">
+                    <columns>
+                        <TableColumn fx:id="tcNombreAutor" prefWidth="248.0" text="Autores Asignados al Libro" />
+                    </columns>
+                </TableView>
 
                 <Label layoutX="50.0" layoutY="490.0" text="Listado de Libros" textFill="#828282">
                     <font>
@@ -74,26 +85,16 @@
                         <TableColumn fx:id="tcTitulo" prefWidth="240.0" text="Título" />
                         <TableColumn fx:id="tcIsbn" prefWidth="150.0" text="ISBN" />
                         <TableColumn fx:id="tcEditorial" prefWidth="180.0" text="Editorial" />
-                        <TableColumn fx:id="tcAutores" prefWidth="200.0" text="Autores (N-M)" />
                     </columns>
                 </TableView>
 
-                <Button fx:id="btGuardar" layoutX="50.0" layoutY="760.0" mnemonicParsing="false" onAction="#guardarLibro" prefHeight="42.0" prefWidth="140.0" style="-fx-background-radius: 35; -fx-background-color: #4CAF50;" text="Guardar Libro" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Button>
+                <Button fx:id="btGuardar" layoutX="50.0" layoutY="760.0" mnemonicParsing="false" onAction="#guardarLibro" prefHeight="42.0" prefWidth="140.0" style="-fx-background-radius: 35; -fx-background-color: #4CAF50;" text="Guardar Libro" textFill="WHITE" />
 
-                <Button fx:id="btBorrar" layoutX="220.0" layoutY="760.0" mnemonicParsing="false" onAction="#borrarLibro" prefHeight="42.0" prefWidth="140.0" style="-fx-background-radius: 35; -fx-background-color: #F44336;" text="Borrar Libro" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
-                </Button>
+                <Button fx:id="btModificar" layoutX="220.0" layoutY="760.0" mnemonicParsing="false" onAction="#modificarLibro" prefHeight="42.0" prefWidth="140.0" style="-fx-background-radius: 35; -fx-background-color: #FF9800;" text="Modificar Libro" textFill="WHITE" />
 
-                <Button fx:id="btRecuperar" layoutX="390.0" layoutY="760.0" mnemonicParsing="false" onAction="#recuperarBorrado" prefHeight="42.0" prefWidth="160.0" style="-fx-background-radius: 35; -fx-background-color: #2196F3;" text="Deshacer Borrado" textFill="WHITE">
-                    <font>
-                        <Font name="System Bold" size="14.0" />
-                    </font>
+                <Button fx:id="btBorrar" layoutX="390.0" layoutY="760.0" mnemonicParsing="false" onAction="#borrarLibro" prefHeight="42.0" prefWidth="140.0" style="-fx-background-radius: 35; -fx-background-color: #F44336;" text="Borrar Libro" textFill="WHITE" />
+
+                <Button fx:id="btRecuperar" layoutX="560.0" layoutY="760.0" mnemonicParsing="false" onAction="#recuperarBorrado" prefHeight="42.0" prefWidth="160.0" style="-fx-background-radius: 35; -fx-background-color: #2196F3;" text="Deshacer Borrado" textFill="WHITE">
                 </Button>
 
             </children>

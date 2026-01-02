@@ -21,13 +21,13 @@ public class Libros {
     private String isbn;
 
     //ojo la siguiente defincion va toda junta
-    @ManyToOne(cascade = CascadeType.ALL,
-            fetch=FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH},
+            fetch= FetchType.EAGER)
     @JoinColumn(name="ideditorial")
     private Editoriales editorial;
 
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinTable(name = "libro_autor", //OJO es donde le digo que se crea la tabla
             joinColumns = @JoinColumn(name="idLibro"),
             inverseJoinColumns = @JoinColumn(name="idAutor"))

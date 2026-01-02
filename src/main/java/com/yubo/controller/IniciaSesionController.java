@@ -58,6 +58,8 @@ public class IniciaSesionController {
 
             Stage stage = (Stage) btIniciar.getScene().getWindow();
             stage.close();
+
+
             abrirVentanaPrincipal();
         } else {
             AlertUtils.mostrarError("Usuario o contraseña incorrectos");

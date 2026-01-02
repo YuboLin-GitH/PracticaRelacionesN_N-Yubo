@@ -77,4 +77,62 @@ public class LibreriaDAOImpl implements LibreriaDAO {
         }
     }
 
+
+
+    @Override
+    public Editoriales buscarEditorialPorNombre(String nombre) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // HQL 查询：根据名字找出版社
+            String hql = "FROM Editoriales WHERE nombre = :nombre";
+            return session.createQuery(hql, Editoriales.class)
+                    .setParameter("nombre", nombre)
+                    .uniqueResult(); // 如果找到返回对象，找不到返回 null
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    // ⭐【新增】实现单独保存出版社
+    @Override
+    public void guardarEditorial(Editoriales editorial) throws Exception {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            session.saveOrUpdate(editorial);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            throw e;
+        }
+    }
+
+
+    @Override
+    public Autores buscarAutorPorNombre(String nombre) {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            // HQL 查询：根据名字找作者
+            String hql = "FROM Autores WHERE nombre = :nombre";
+            return session.createQuery(hql, Autores.class)
+                    .setParameter("nombre", nombre)
+                    .uniqueResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+
+
+    // ⭐【新增】实现单独保存作者
+    @Override
+    public void guardarAutor(Autores autor) throws Exception {
+        Transaction tx = null;
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            tx = session.beginTransaction();
+            session.saveOrUpdate(autor);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null) tx.rollback();
+            throw e;
+        }
+    }
 }
