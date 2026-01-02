@@ -80,7 +80,7 @@ public class DatabaseImporta {
                 System.out.println("Script SQL importado correctamente.");
 
                 if (marker.createNewFile()) {
-                    System.out.println("📝 Archivo de marca creado: " + MARKER_FILE_NAME);
+                    System.out.println("Archivo de marca creado: " + MARKER_FILE_NAME);
                 }
             }
 
